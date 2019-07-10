@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 display_message() {
     tmux display-message "$1"
 }
@@ -16,4 +18,11 @@ get_tmux_option() {
 
 get_os () {
     uname -s
+}
+
+command_available () {
+    local cmd
+
+    cmd="$1"
+    command -v "${cmd}" >/dev/null 2>&1
 }
