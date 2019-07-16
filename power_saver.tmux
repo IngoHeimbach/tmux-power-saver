@@ -3,17 +3,8 @@
 CURRENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SCRIPTS_DIR="${CURRENT_DIR}/scripts"
 
-
-kill_previous_instances () {
-    local previous_processes pid
-
-    mapfile -t previous_processes <<< "$(ps -e -o "pid=,command=" | grep 'monitor_power_supply\.sh' | awk '{ print $1 }')"
-    [[ "${#previous_processes}" -gt 0 ]] || return 0
-    for pid in "${previous_processes[@]}"; do
-        kill "${pid}"
-    done
-}
-
+# shellcheck source=./utils.sh
+source "${SCRIPTS_DIR}/utils.sh"
 
 main() {
     # Ensure previous instances are killed before a new is started
