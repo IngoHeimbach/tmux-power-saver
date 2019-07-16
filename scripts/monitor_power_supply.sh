@@ -60,7 +60,7 @@ monitor_power_supply () {
             fi
             last_power_type="${current_power_type}"
         fi
-    done < <("${monitor_script}")
+    done < <("${monitor_script}" 2>/dev/null)
 }
 
 main() {

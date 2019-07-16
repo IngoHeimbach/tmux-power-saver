@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 
 CURRENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SCRIPTS_DIR="$(cd "${CURRENT_DIR}/../" && pwd)"
+
+# shellcheck source=../utils.sh
+source "${SCRIPTS_DIR}/utils.sh"
 
 
 priority () {
@@ -14,6 +18,7 @@ is_runnable () {
 }
 
 run_monitor () {
+    kill_previous_instances "macos_io_power_sources/battery_check$"
     "${CURRENT_DIR}/macos_io_power_sources/battery_check"
 }
 
