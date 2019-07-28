@@ -2,8 +2,7 @@
 
 
 priority () {
-    # `-1` indicates that the plugin should not be used currently
-    echo "-1"
+    echo "1"
 }
 
 is_runnable () {
@@ -12,8 +11,9 @@ is_runnable () {
 }
 
 run_monitor() {
-    # Implement me!
-    return 1
+    # First print the current status and then monitor AC change events
+    upower --dump | stdbuf -oL grep online | stdbuf -oL awk '{ print ($2 == "no") ? "battery" : "ac" }'
+    upower --monitor-detail | stdbuf -oL grep online | stdbuf -oL awk '{ print ($2 == "no") ? "battery" : "ac" }'
 }
 
 # If the script is run standalone and not being sourced
