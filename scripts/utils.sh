@@ -27,7 +27,7 @@ command_available () {
     command -v "${cmd}" >/dev/null 2>&1
 }
 
-kill_previous_instances () {
+kill_instances () {
     local instance_name previous_processes pid
 
     instance_name="$1"
