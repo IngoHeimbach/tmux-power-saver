@@ -12,6 +12,16 @@ POWER_SAVER_BATTERY_INTERVAL_OPTION="@power-saver-battery-interval"
 POWER_SAVER_AC_INTERVAL_DEFAULT="2"
 POWER_SAVER_AC_INTERVAL_OPTION="@power-saver-ac-interval"
 
+MONITOR_SCRIPT=""
+
+
+cleanup () {
+    if [[ -n "${MONITOR_SCRIPT}" ]]; then
+        kill_instances "${MONITOR_SCRIPT}"
+    fi
+}
+trap cleanup EXIT
+
 power_saver_battery_interval() {
     get_tmux_option "${POWER_SAVER_BATTERY_INTERVAL_OPTION}" "${POWER_SAVER_BATTERY_INTERVAL_DEFAULT}"
 }
@@ -41,12 +51,12 @@ find_suitable_monitor_plugin () (
 )
 
 monitor_power_supply () {
-    local battery_command ac_command monitor_script last_power_type current_power_type
+    local battery_command ac_command last_power_type current_power_type
 
     battery_command="$1"
     ac_command="$2"
 
-    monitor_script="$(find_suitable_monitor_plugin)"
+    MONITOR_SCRIPT="$(find_suitable_monitor_plugin)"
 
     while read -r current_power_type; do
         if [[ "${current_power_type}" != "${last_power_type}" ]]; then
@@ -60,7 +70,7 @@ monitor_power_supply () {
             fi
             last_power_type="${current_power_type}"
         fi
-    done < <("${monitor_script}" 2>/dev/null)
+    done < <("${MONITOR_SCRIPT}" 2>/dev/null)
 }
 
 main() {

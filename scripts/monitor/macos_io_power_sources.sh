@@ -18,8 +18,16 @@ is_runnable () {
 }
 
 run_monitor () {
-    kill_previous_instances "macos_io_power_sources/battery_check$"
-    "${CURRENT_DIR}/macos_io_power_sources/battery_check"
+    cleanup () {
+        if [[ -n "${BATTERY_CHECK_PID}" ]]; then
+            kill "${BATTERY_CHECK_PID}"
+        fi
+    }
+    trap cleanup EXIT
+
+    "${CURRENT_DIR}/macos_io_power_sources/battery_check" &
+    BATTERY_CHECK_PID="$!"
+    wait "${BATTERY_CHECK_PID}"
 }
 
 # If the script is run standalone and not being sourced

@@ -8,7 +8,7 @@ source "${SCRIPTS_DIR}/utils.sh"
 
 main() {
     # Ensure previous instances are killed before a new is started
-    kill_previous_instances
+    kill_instances
     "${SCRIPTS_DIR}/monitor_power_supply.sh" &
 }
 
