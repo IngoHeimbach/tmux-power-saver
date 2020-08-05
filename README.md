@@ -9,7 +9,7 @@ line (for example when using [tmux-powerline](https://github.com/erikw/tmux-powe
 1. Add
 
    ```tmux
-   set -g @plugin 'IngoHeimbach/tmux-power-saver'
+   set -g @plugin 'IngoMeyer441/tmux-power-saver'
    ```
 
    to your `.tmux.conf`.
